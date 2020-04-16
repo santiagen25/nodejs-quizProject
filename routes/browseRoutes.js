@@ -15,6 +15,18 @@ router.get('/listado/:id',
     findController.findById
 );
 
+router.delete('/delete/:id',
+    findController.delete
+);
+
+router.post('/create',
+    findController.create
+);
+
+router.put('/update/:id',
+    findController.update
+);
+
 /*
 router.get('/details/:id?',
     tokenValidation.validate,
