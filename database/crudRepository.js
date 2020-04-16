@@ -32,7 +32,6 @@ module.exports.find = async (data) => {
     return responseObj;
 };
 
-/*
 module.exports.save = async (objToSave) => {
     let responseObj = { status: false };
     try {
@@ -81,6 +80,8 @@ module.exports.findOneAndDelete = async (data) => {
     }
     return responseObj;
 };
+
+/*
 
 module.exports.findOne = async (data) => {
     let responseObj = { status: false };

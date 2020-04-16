@@ -34,10 +34,10 @@ module.exports.findAll = async function(req, res) {
         if (responseFromService.status) {
             if (responseFromService.result) {
                 responseObj.body = responseFromService.result;
-                responseObj.message = 'Users fetched successfully';
+                responseObj.message = 'Found successfully';
                 responseObj.status = 200;
             } else {
-                responseObj.message = 'No users found';
+                responseObj.message = 'No data found';
                 responseObj.status = 404;
             }
         }
@@ -55,10 +55,10 @@ module.exports.findById = async function(req,res) {
         if (responseFromService.status) {
             if (responseFromService.result) {
                 responseObj.body = responseFromService.result;
-                responseObj.message = 'Users fetched successfully';
+                responseObj.message = 'Found successfully by id';
                 responseObj.status = 200;
             } else {
-                responseObj.message = 'No users found';
+                responseObj.message = 'No id found';
                 responseObj.status = 404;
             }
         }
@@ -68,12 +68,11 @@ module.exports.findById = async function(req,res) {
     return res.status(responseObj.status).send(responseObj);
 }
 
-/*
 module.exports.create = async function(req, res) {
     const responseObj = { status: 500, message: 'Internal server error' };
     try {
         const data = req.body;
-        const responseFromService = await userService.create(data);
+        const responseFromService = await findService.create(data);
         if (responseFromService.status) {
             responseObj.body = responseFromService.result;
             responseObj.message = 'User created successfully';
@@ -88,9 +87,9 @@ module.exports.create = async function(req, res) {
 module.exports.update = async function(req, res) {
     let responseObj = { status: 500, message: 'Internal server error' };
     try {
-        const user = req.body;
-        user.id = req.params.id;
-        const responseFromService = await userService.update(user);
+        const find = req.body;
+        find.id = req.params.id;
+        const responseFromService = await findService.update(find);
         if (responseFromService.status) {
             responseObj.body = responseFromService.result;
             responseObj.message = 'User updated successfully';
@@ -105,8 +104,8 @@ module.exports.update = async function(req, res) {
 module.exports.delete = async function(req, res) {
     let responseObj = { status: 500, message: 'Internal server error' };
     try {
-        const userId = req.params.id;
-        const responseFromService = await userService.delete(userId);
+        const findId = req.params.id;
+        const responseFromService = await findService.delete(findId);
         if (responseFromService.status) {
             responseObj.body = responseFromService.result;
             responseObj.message = 'User removed successfully';
@@ -117,4 +116,3 @@ module.exports.delete = async function(req, res) {
     }
     return res.status(responseObj.status).send(responseObj);
 }
-*/

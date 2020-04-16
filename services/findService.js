@@ -69,12 +69,11 @@ module.exports.findById = async function(id_find) {
     return responseObj;
 }
 
-/*
 module.exports.create = async function(dataFromController) {
     const responseObj = { status: false };
     try {
-        const user = new User(dataFromController);
-        const responseFromDatabase = await crudRepository.save(user);
+        const find = new Find(dataFromController);
+        const responseFromDatabase = await crudRepository.save(find);
         if (responseFromDatabase.status) {
             responseObj.status = true;
             responseObj.result = responseFromDatabase.result;
@@ -85,23 +84,21 @@ module.exports.create = async function(dataFromController) {
     return responseObj;
 }
 
-module.exports.update = async function(user) {
+module.exports.update = async function(find) {
     const responseObj = { status: false };
     try {
         const data = {
             findQuery: {
-                _id: mongoose.Types.ObjectId(user.id)
+                _id: mongoose.Types.ObjectId(find.id)
             },
-            model: User,
+            model: Find,
             projection: {
                 __v: false
             },
             updateQuery: {}
         };
 
-        if (user.email) data.updateQuery.email = user.email;
-        if (user.firstName) data.updateQuery.firstName = user.firstName;
-        if (user.lastName) data.updateQuery.lastName = user.lastName;
+        if (find.fechaHora) data.updateQuery.fechaHora = find.fechaHora;
 
         const responseFromDatabase = await crudRepository.findOneAndUpdate(data);
         if (responseFromDatabase.status) {
@@ -113,6 +110,34 @@ module.exports.update = async function(user) {
     }
     return responseObj;
 }
+
+module.exports.delete = async function(findId) {
+    const responseObj = { status: false };
+    try {
+        const data = {
+            findQuery: {
+                _id: mongoose.Types.ObjectId(findId)
+            },
+            model: Find,
+            projection: {
+                __v: false
+            }
+        };
+
+        const responseFromDatabase = await crudRepository.findOneAndDelete(data);
+        if (responseFromDatabase.status) {
+            responseObj.status = true;
+            responseObj.result = responseFromDatabase.result;
+        }
+    } catch (error){
+        console.log('ERROR-userService-delete: ', error);
+    }
+    return responseObj;
+}
+
+/*
+
+
 
 module.exports.delete = async function(userId) {
     const responseObj = { status: false };
