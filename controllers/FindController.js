@@ -55,7 +55,11 @@ module.exports.findById = async function(req,res) {
         if (responseFromService.status) {
             if (responseFromService.result) {
                 responseObj.body = responseFromService.result;
+<<<<<<< HEAD
                 responseObj.message = 'Find found successfully by id';
+=======
+                responseObj.message = 'Found successfully by id';
+>>>>>>> 6464ce7180fb2e0eb3a256e608f9e1e5f85a3826
                 responseObj.status = 200;
             } else {
                 responseObj.message = 'No id found';
