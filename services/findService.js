@@ -42,7 +42,7 @@ module.exports.findAll = async function(dataFromController) {
             responseObj.result = responseFromDatabase.result;
         }
     } catch (error){
-        console.log('ERROR-userService-findAll: ', error);
+        console.log('ERROR-findService-findAll: ', error);
     }
     return responseObj;
 }
@@ -64,7 +64,7 @@ module.exports.findById = async function(id_find) {
             responseObj.result = responseFromDatabase.result;
         }
     } catch (error){
-        console.log('ERROR-userService-findById: ', error);
+        console.log('ERROR-findService-findById: ', error);
     }
     return responseObj;
 }
@@ -79,7 +79,7 @@ module.exports.create = async function(dataFromController) {
             responseObj.result = responseFromDatabase.result;
         }
     } catch (error){
-        console.log('ERROR-userService-create: ', error);
+        console.log('ERROR-findService-create: ', error);
     }
     return responseObj;
 }
@@ -106,7 +106,7 @@ module.exports.update = async function(find) {
             responseObj.result = responseFromDatabase.result;
         }
     } catch (e){
-        console.log('ERROR-userService-update: ', e);
+        console.log('ERROR-findService-update: ', e);
     }
     return responseObj;
 }
@@ -130,36 +130,7 @@ module.exports.delete = async function(findId) {
             responseObj.result = responseFromDatabase.result;
         }
     } catch (error){
-        console.log('ERROR-userService-delete: ', error);
+        console.log('ERROR-findService-delete: ', error);
     }
     return responseObj;
 }
-
-/*
-
-
-
-module.exports.delete = async function(userId) {
-    const responseObj = { status: false };
-    try {
-        const data = {
-            findQuery: {
-                _id: mongoose.Types.ObjectId(userId)
-            },
-            model: User,
-            projection: {
-                __v: false
-            }
-        };
-
-        const responseFromDatabase = await crudRepository.findOneAndDelete(data);
-        if (responseFromDatabase.status) {
-            responseObj.status = true;
-            responseObj.result = responseFromDatabase.result;
-        }
-    } catch (error){
-        console.log('ERROR-userService-delete: ', error);
-    }
-    return responseObj;
-}
-*/

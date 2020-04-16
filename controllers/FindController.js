@@ -34,7 +34,7 @@ module.exports.findAll = async function(req, res) {
         if (responseFromService.status) {
             if (responseFromService.result) {
                 responseObj.body = responseFromService.result;
-                responseObj.message = 'Found successfully';
+                responseObj.message = 'Find found successfully';
                 responseObj.status = 200;
             } else {
                 responseObj.message = 'No data found';
@@ -42,7 +42,7 @@ module.exports.findAll = async function(req, res) {
             }
         }
     } catch(error) {
-        console.log('ERROR-userController-findAll: ', error);
+        console.log('ERROR-findController-findAll: ', error);
     }
     return res.status(responseObj.status).send(responseObj);
 }
@@ -55,7 +55,7 @@ module.exports.findById = async function(req,res) {
         if (responseFromService.status) {
             if (responseFromService.result) {
                 responseObj.body = responseFromService.result;
-                responseObj.message = 'Found successfully by id';
+                responseObj.message = 'Find found successfully by id';
                 responseObj.status = 200;
             } else {
                 responseObj.message = 'No id found';
@@ -63,7 +63,7 @@ module.exports.findById = async function(req,res) {
             }
         }
     } catch(error) {
-        console.log('ERROR-userController-findAll: ', error);
+        console.log('ERROR-findController-findAll: ', error);
     }
     return res.status(responseObj.status).send(responseObj);
 }
@@ -75,11 +75,11 @@ module.exports.create = async function(req, res) {
         const responseFromService = await findService.create(data);
         if (responseFromService.status) {
             responseObj.body = responseFromService.result;
-            responseObj.message = 'User created successfully';
+            responseObj.message = 'Find created successfully';
             responseObj.status = 201;
         }
     } catch(error) {
-        console.log('ERROR-userController-create: ', error);
+        console.log('ERROR-findController-create: ', error);
     }
     return res.status(responseObj.status).send(responseObj);
 }
@@ -92,11 +92,11 @@ module.exports.update = async function(req, res) {
         const responseFromService = await findService.update(find);
         if (responseFromService.status) {
             responseObj.body = responseFromService.result;
-            responseObj.message = 'User updated successfully';
+            responseObj.message = 'Find updated successfully';
             responseObj.status = 200;
         }
     } catch(error) {
-        console.log('ERROR-userController-update: ', error);
+        console.log('ERROR-findController-update: ', error);
     }
     return res.status(responseObj.status).send(responseObj);
 }
@@ -108,11 +108,11 @@ module.exports.delete = async function(req, res) {
         const responseFromService = await findService.delete(findId);
         if (responseFromService.status) {
             responseObj.body = responseFromService.result;
-            responseObj.message = 'User removed successfully';
+            responseObj.message = 'Find removed successfully';
             responseObj.status = 200;
         }
     } catch(error) {
-        console.log('ERROR-userController-delete: ', error);
+        console.log('ERROR-findController-delete: ', error);
     }
     return res.status(responseObj.status).send(responseObj);
 }
