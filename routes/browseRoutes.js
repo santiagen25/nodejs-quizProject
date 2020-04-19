@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const findController = require('../controllers/FindController');
+const preguntasController = require('../controllers/PreguntasController');
 //const joiSchemaValidation = require('../middlewares/joiSchemaValidation');
 const userSchemas = require('../models/joi/userSchemas');
 //const tokenValidation = require('../middlewares/tokenValidation');
@@ -25,6 +26,10 @@ router.post('/create',
 
 router.put('/update/:id',
     findController.update
+);
+
+router.get('/',
+    preguntasController.getQuestion
 );
 
 /*
