@@ -112,37 +112,6 @@ module.exports.update = async function(find) {
 }
 
 module.exports.delete = async function(findId) {
-<<<<<<< HEAD
-=======
-    const responseObj = { status: false };
-    try {
-        const data = {
-            findQuery: {
-                _id: mongoose.Types.ObjectId(findId)
-            },
-            model: Find,
-            projection: {
-                __v: false
-            }
-        };
-
-        const responseFromDatabase = await crudRepository.findOneAndDelete(data);
-        if (responseFromDatabase.status) {
-            responseObj.status = true;
-            responseObj.result = responseFromDatabase.result;
-        }
-    } catch (error){
-        console.log('ERROR-userService-delete: ', error);
-    }
-    return responseObj;
-}
-
-/*
-
-
-
-module.exports.delete = async function(userId) {
->>>>>>> 6464ce7180fb2e0eb3a256e608f9e1e5f85a3826
     const responseObj = { status: false };
     try {
         const data = {

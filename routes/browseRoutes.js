@@ -29,6 +29,10 @@ router.put('/update/:id',
 );
 
 router.get('/',
+    //preguntasController.getQuestion
+);
+
+router.get('/question',
     preguntasController.getQuestion
 );
 
