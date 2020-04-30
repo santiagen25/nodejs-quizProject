@@ -84,11 +84,10 @@ module.exports.findOneAndDelete = async (data) => {
 module.exports.findDate = async (datas) => {
     let responseObj = { status: false };
     try {
-        const docs = await datas[0].model.find(datas[0].findQuery, datas[0].projection);
-        const docs2 = await datas[1].model.find(datas[1].findQuery, datas[1].projection);
+        //datas 0 y 1 tienen las fechas de la url, datas 2 tiene lo necesario para coger todas las datas, con js las filtro según data 0 y 1
         const allDates = await datas[2].model.find(datas[2].findQuery, datas[2].projection);
-        const date1 = new Date(docs[0].fechaHora);
-        const date2 = new Date(docs2[0].fechaHora);
+        const date1 = new Date(datas[0]);
+        const date2 = new Date(datas[1]);
         const finalDates = [];
 
         for(let i = 0; i<allDates.length;i++){
@@ -108,3 +107,19 @@ module.exports.findDate = async (datas) => {
     }
     return responseObj;
 };
+
+module.exports.savePregunta = async (objToSave) => {
+    let responseObj = { status: false };
+    try {
+        const doc = await objToSave.save();
+        responseObj = {
+            result: doc,
+            status: true
+        };
+    } catch(error) {
+        responseObj.error = error;
+        console.log('ERROR-crudRepository-save: ', error);
+    }
+    return responseObj;
+};
+

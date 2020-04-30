@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Find = require('../models/db/findModel');
 const crudRepository = require('../database/crudRepository');
+const Question = require('../models/db/questionModel');
+const axios = require('axios');
 
 /*
 module.exports.findById = async function(userId) {
@@ -138,20 +140,6 @@ module.exports.delete = async function(findId) {
 module.exports.dateFind = async function(dates) {
     const responseObj = { status: false };
     try {
-        const data = {
-            findQuery: {fechaHora: dates[0]},
-            model: Find,
-            projection: {
-                __v: false
-            }
-        };
-        const data2 = {
-            findQuery: {fechaHora: dates[1]},
-            model: Find,
-            projection: {
-                __v: false
-            }
-        };
         const allData = {
             findQuery: {},
             model: Find,
@@ -160,7 +148,7 @@ module.exports.dateFind = async function(dates) {
             }
         };
 
-        const datas = [data, data2, allData];
+        const datas = [dates[0], dates[1], allData];
 
         const responseFromDatabase = await crudRepository.findDate(datas);
         if (responseFromDatabase.status) {
@@ -172,3 +160,42 @@ module.exports.dateFind = async function(dates) {
     }
     return responseObj;
 }
+
+module.exports.findAllPreguntas = async function(dataFromController) {
+    const responseObj = { status: false };
+    
+    try {
+        const {data:response} = await axios.get('https://opentdb.com/api.php?amount=1');
+
+        //y ahora el insert de busqueda
+        var currentdate = new Date(); 
+        var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+
+        const find = new Find({fechaHora: currentdate});
+        const responseFromDatabase = await crudRepository.savePregunta(find);
+        if (responseFromDatabase.status) {
+            responseObj.status = true;
+            responseObj.result = responseFromDatabase.result;
+        }
+
+        //hacemos el insert de pregunta
+        //console.log(JSON.stringify(response.results).slice(1, -2) + ", \"id_find\": \""+ responseFromDatabase.result._id +"\"}");
+        let remodelData = JSON.parse(JSON.stringify(response.results).slice(1, -2) + ", \"id_find\": \""+ responseFromDatabase.result._id +"\"}");
+        
+        const question = new Question(remodelData);
+        const responseFromDatabase2 = await crudRepository.savePregunta(question);
+        if (responseFromDatabase2.status) {
+            responseObj.status = true;
+            responseObj.result = responseFromDatabase2.result;
+        }
+    } catch (error){
+        console.log('ERROR-questionService-create: ', error);
+    }
+    return responseObj;
+}
+
