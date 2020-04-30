@@ -134,3 +134,41 @@ module.exports.delete = async function(findId) {
     }
     return responseObj;
 }
+
+module.exports.dateFind = async function(dates) {
+    const responseObj = { status: false };
+    try {
+        const data = {
+            findQuery: {fechaHora: dates[0]},
+            model: Find,
+            projection: {
+                __v: false
+            }
+        };
+        const data2 = {
+            findQuery: {fechaHora: dates[1]},
+            model: Find,
+            projection: {
+                __v: false
+            }
+        };
+        const allData = {
+            findQuery: {},
+            model: Find,
+            projection: {
+                __v: false
+            }
+        };
+
+        const datas = [data, data2, allData];
+
+        const responseFromDatabase = await crudRepository.findDate(datas);
+        if (responseFromDatabase.status) {
+            responseObj.status = true;
+            responseObj.result = responseFromDatabase.result;
+        }
+    } catch (error){
+        console.log('ERROR-findService-dateFind: ', error);
+    }
+    return responseObj;
+}

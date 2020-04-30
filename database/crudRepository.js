@@ -81,20 +81,30 @@ module.exports.findOneAndDelete = async (data) => {
     return responseObj;
 };
 
-/*
-
-module.exports.findOne = async (data) => {
+module.exports.findDate = async (datas) => {
     let responseObj = { status: false };
     try {
-        const docs = await data.model.findOne(data.findQuery);
+        const docs = await datas[0].model.find(datas[0].findQuery, datas[0].projection);
+        const docs2 = await datas[1].model.find(datas[1].findQuery, datas[1].projection);
+        const allDates = await datas[2].model.find(datas[2].findQuery, datas[2].projection);
+        const date1 = new Date(docs[0].fechaHora);
+        const date2 = new Date(docs2[0].fechaHora);
+        const finalDates = [];
+
+        for(let i = 0; i<allDates.length;i++){
+            if(new Date(allDates[i].fechaHora) > date1 && new Date(allDates[i].fechaHora) < date2){
+                finalDates.push(allDates[i]);
+            }
+        }
+
+
         responseObj = {
-            result: docs,
+            result: finalDates,
             status: true
         };
     } catch(error) {
         responseObj.error = error;
-        console.log('ERROR-crudRepository-findOne: ', error);
+        console.log('ERROR-crudRepository-findDate: ', error);
     }
     return responseObj;
 };
-*/

@@ -36,6 +36,10 @@ router.get('/question',
     preguntasController.getQuestion
 );
 
+router.get('/advancedBrowse/:date/:date2',
+    findController.advancedBrowse
+);
+
 /*
 router.get('/details/:id?',
     tokenValidation.validate,
