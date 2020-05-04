@@ -140,15 +140,17 @@ module.exports.delete = async function(findId) {
 module.exports.dateFind = async function(dates) {
     const responseObj = { status: false };
     try {
+        console.log(dates[0]);
+        console.log(dates[1]);
         const allData = {
-            findQuery: {},
+            findQuery: {"fechaHora": {$gte: new Date(dates[0]), $lt: new Date(dates[1])}},
             model: Find,
             projection: {
                 __v: false
             }
         };
 
-        const datas = [dates[0], dates[1], allData];
+        const datas = allData;
 
         const responseFromDatabase = await crudRepository.findDate(datas);
         if (responseFromDatabase.status) {

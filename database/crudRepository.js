@@ -85,20 +85,23 @@ module.exports.findDate = async (datas) => {
     let responseObj = { status: false };
     try {
         //datas 0 y 1 tienen las fechas de la url, datas 2 tiene lo necesario para coger todas las datas, con js las filtro según data 0 y 1
-        const allDates = await datas[2].model.find(datas[2].findQuery, datas[2].projection);
+        /*const allDates = await datas[2].model.find(datas[2].findQuery, datas[2].projection);
         const date1 = new Date(datas[0]);
         const date2 = new Date(datas[1]);
-        const finalDates = [];
+        const finalDates = [];*/
+        console.log(datas.findQuery);
+        const newDates = await datas.model.find(datas.findQuery, datas.projection);
 
-        for(let i = 0; i<allDates.length;i++){
+        //bien, pero mejoremoslo
+        /*for(let i = 0; i<allDates.length;i++){
             if(new Date(allDates[i].fechaHora) > date1 && new Date(allDates[i].fechaHora) < date2){
                 finalDates.push(allDates[i]);
             }
-        }
+        }*/
 
 
         responseObj = {
-            result: finalDates,
+            result: newDates,
             status: true
         };
     } catch(error) {

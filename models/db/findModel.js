@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const findSchema = mongoose.Schema({
-    fechaHora: String
+    fechaHora: Date
 },
 { versionKey: false }
 );
