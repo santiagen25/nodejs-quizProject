@@ -1,4 +1,5 @@
 const findService = require('../services/findService');
+const tokenValidation = require('../middlewares/tokenValidation');
 
 /*
 module.exports.findById = async function(req, res) {
@@ -142,10 +143,19 @@ module.exports.advancedBrowse = async function(req,res) {
 
 module.exports.getQuestion = async function(req, res) {
     const responseObj = { status: 500, message: 'Internal server error' };
+    //console.log(req.body.token);
+    //en este if hay que ponerle la comparativa real para ver si está logeado (se supone que el token lo dice, pero quien soy yo para decir nada. Para mi solo es una variabe mas)
+    /*if(req.body.token=="" || req.body.token==undefined){
+        console.log("miss");
+    } else {
+        console.log("mass");
+    }*/
+
     try {
         const data = {
             skip: parseInt(req.query.skip),
-            limit: parseInt(req.query.limit)
+            limit: parseInt(req.query.limit),
+            req: req
         };
         const responseFromService = await findService.findAllPreguntas(data);
         if (responseFromService.status) {
