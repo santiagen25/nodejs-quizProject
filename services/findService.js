@@ -143,7 +143,7 @@ module.exports.dateFind = async function(dates) {
         console.log(dates[0]);
         console.log(dates[1]);
         const allData = {
-            findQuery: {"fechaHora": {$gte: new Date(dates[0]), $lt: new Date(dates[1])}},
+            findQuery: {"fechaHora": {$gte: new Date(dates[0]), $lte: new Date(dates[1])}},
             model: Find,
             projection: {
                 __v: false
