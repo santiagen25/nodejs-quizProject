@@ -169,6 +169,7 @@ module.exports.findAllPreguntas = async function(dataFromController) {
     try {
         const {data:response} = await axios.get('https://opentdb.com/api.php?amount=1');
         
+        //en este if hay que ponerle la comparativa real para ver si está logeado (se supone que el token lo dice, pero quien soy yo para decir nada. Para mi solo es una variabe mas)
         if(dataFromController.req.body.token!="" && dataFromController.req.body.token!=undefined){
             //y ahora el insert de busqueda
             var currentdate = new Date();
