@@ -1,29 +1,10 @@
 const mongoose = require('mongoose');
 const Find = require('../models/db/findModel');
 const crudRepository = require('../database/crudRepository');
+const Question = require('../models/db/questionModel');
+const axios = require('axios');
+const tokenValidation = require('../middlewares/tokenValidation');
 
-/*
-module.exports.findById = async function(userId) {
-    const responseObj = { status: false };
-    try {
-        const data = {
-            _id: mongoose.Types.ObjectId(userId),
-            model: User,
-            projection: {
-                __v: false
-            }
-        };
-        const responseFromRepository = await crudRepository.findById(data);
-        if (responseFromRepository.status) {
-            responseObj.status = true;
-            responseObj.result = responseFromRepository.result;
-        }
-    } catch (error){
-        console.log('ERROR-userService-findById: ', error);
-    }
-    return responseObj;
-}
-*/
 
 module.exports.findAll = async function(dataFromController) {
     const responseObj = { status: false };
@@ -112,37 +93,6 @@ module.exports.update = async function(find) {
 }
 
 module.exports.delete = async function(findId) {
-<<<<<<< HEAD
-=======
-    const responseObj = { status: false };
-    try {
-        const data = {
-            findQuery: {
-                _id: mongoose.Types.ObjectId(findId)
-            },
-            model: Find,
-            projection: {
-                __v: false
-            }
-        };
-
-        const responseFromDatabase = await crudRepository.findOneAndDelete(data);
-        if (responseFromDatabase.status) {
-            responseObj.status = true;
-            responseObj.result = responseFromDatabase.result;
-        }
-    } catch (error){
-        console.log('ERROR-userService-delete: ', error);
-    }
-    return responseObj;
-}
-
-/*
-
-
-
-module.exports.delete = async function(userId) {
->>>>>>> 6464ce7180fb2e0eb3a256e608f9e1e5f85a3826
     const responseObj = { status: false };
     try {
         const data = {
@@ -165,3 +115,68 @@ module.exports.delete = async function(userId) {
     }
     return responseObj;
 }
+
+module.exports.dateFind = async function(dates) {
+    const responseObj = { status: false };
+    try {
+        console.log(dates[0]);
+        console.log(dates[1]);
+        const allData = {
+            findQuery: {"fechaHora": {$gte: new Date(dates[0]), $lte: new Date(dates[1])}},
+            model: Find,
+            projection: {
+                __v: false
+            }
+        };
+
+        const datas = allData;
+
+        const responseFromDatabase = await crudRepository.findDate(datas);
+        if (responseFromDatabase.status) {
+            responseObj.status = true;
+            responseObj.result = responseFromDatabase.result;
+        }
+    } catch (error){
+        console.log('ERROR-findService-dateFind: ', error);
+    }
+    return responseObj;
+}
+
+module.exports.findAllPreguntas = async function(dataFromController) {
+    const responseObj = { status: false };
+    try {
+        const {data:response} = await axios.get('https://opentdb.com/api.php?amount=1');
+        
+        //en este if hay que ponerle la comparativa real para ver si está logeado (se supone que el token lo dice, pero quien soy yo para decir nada. Para mi solo es una variabe mas)
+        if(dataFromController.req.body.token!="" && dataFromController.req.body.token!=undefined){
+            //y ahora el insert de busqueda
+            var currentdate = new Date();
+
+            const find = new Find({fechaHora: currentdate});
+            const responseFromDatabase = await crudRepository.savePregunta(find);
+            if (responseFromDatabase.status) {
+                responseObj.status = true;
+                responseObj.result = responseFromDatabase.result;
+            }
+
+            //hacemos el insert de pregunta
+            //console.log(JSON.stringify(response.results).slice(1, -2) + ", \"id_find\": \""+ responseFromDatabase.result._id +"\"}");
+            let remodelData = JSON.parse(JSON.stringify(response.results).slice(1, -2) + ", \"id_find\": \""+ responseFromDatabase.result._id +"\"}");
+            
+            const question = new Question(remodelData);
+            console.log(question);
+            const responseFromDatabase2 = await crudRepository.savePregunta(question);
+            if (responseFromDatabase2.status) {
+                responseObj.status = true;
+                responseObj.result = responseFromDatabase2.result;
+            }
+        } else {
+            responseObj.status = true;
+            responseObj.result = response.results[0];
+        }
+    } catch (error){
+        console.log('ERROR-questionService-create: ', error);
+    }
+    return responseObj;
+}
+
