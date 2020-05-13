@@ -5,28 +5,6 @@ const Question = require('../models/db/questionModel');
 const axios = require('axios');
 const tokenValidation = require('../middlewares/tokenValidation');
 
-/*
-module.exports.findById = async function(userId) {
-    const responseObj = { status: false };
-    try {
-        const data = {
-            _id: mongoose.Types.ObjectId(userId),
-            model: User,
-            projection: {
-                __v: false
-            }
-        };
-        const responseFromRepository = await crudRepository.findById(data);
-        if (responseFromRepository.status) {
-            responseObj.status = true;
-            responseObj.result = responseFromRepository.result;
-        }
-    } catch (error){
-        console.log('ERROR-userService-findById: ', error);
-    }
-    return responseObj;
-}
-*/
 
 module.exports.findAll = async function(dataFromController) {
     const responseObj = { status: false };

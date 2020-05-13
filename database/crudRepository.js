@@ -1,19 +1,3 @@
-/*
-module.exports.findById = async (data) => {
-    let responseObj = { status: false };
-    try {
-        const docs = await data.model.findById(data._id, data.projection);
-        responseObj = {
-            result: docs,
-            status: true
-        };
-    } catch(error) {
-        responseObj.error = error;
-        console.log('ERROR-crudRepository-findById: ', error);
-    }
-    return responseObj;
-};
-*/
 
 module.exports.find = async (data) => {
     let responseObj = { status: false };

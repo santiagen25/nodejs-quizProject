@@ -1,37 +1,36 @@
 const express = require('express');
 const router = express.Router();
 const findController = require('../controllers/FindController');
-//const joiSchemaValidation = require('../middlewares/joiSchemaValidation');
 const crudSchemas = require('../models/joi/crudSchemas');
 const tokenValidation = require('../middlewares/tokenValidation');
 const joiSchemaValidation = require('../middlewares/joiSchemaValidation');
 const constants = require('../config/constants');
 
 
-router.get('/listado',
+router.get('/crud/listado',
     //tokenValidation.validate,
     findController.findAll
 );
 
-router.get('/listado/:id',
+router.get('/crud/listado/:id',
     //tokenValidation.validate,
     joiSchemaValidation.validate(crudSchemas.id, constants.requestObj.PATH_PARAMS),
     findController.findById
 );
 
-router.delete('/delete/:id',
+router.delete('/crud/delete/:id',
     //tokenValidation.validate,
     joiSchemaValidation.validate(crudSchemas.id, constants.requestObj.PATH_PARAMS),
     findController.delete
 );
 
-router.post('/create',
+router.post('/crud/create',
     //tokenValidation.validate,
     //joiSchemaValidation.validate(userSchemas.create, constants.requestObj.BODY_PARAMS),
     findController.create
 );
 
-router.put('/update/:id',
+router.put('/crud/update/:id',
     //tokenValidation.validate,
     joiSchemaValidation.validate(crudSchemas.id, constants.requestObj.PATH_PARAMS),
     joiSchemaValidation.validate(crudSchemas.update, constants.requestObj.BODY_PARAMS),
