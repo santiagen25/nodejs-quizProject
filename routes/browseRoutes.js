@@ -1,53 +1,57 @@
 const express = require('express');
 const router = express.Router();
 const findController = require('../controllers/FindController');
-//const joiSchemaValidation = require('../middlewares/joiSchemaValidation');
-const userSchemas = require('../models/joi/userSchemas');
-//const tokenValidation = require('../middlewares/tokenValidation');
+const crudSchemas = require('../models/joi/crudSchemas');
+const tokenValidation = require('../middlewares/tokenValidation');
+const joiSchemaValidation = require('../middlewares/joiSchemaValidation');
+const constants = require('../config/constants');
 
 
-router.get('/listado',
+router.get('/crud/listado',
     //tokenValidation.validate,
     findController.findAll
 );
 
-router.get('/listado/:id',
+router.get('/crud/listado/:id',
+    //tokenValidation.validate,
+    joiSchemaValidation.validate(crudSchemas.id, constants.requestObj.PATH_PARAMS),
     findController.findById
 );
 
-router.delete('/delete/:id',
+router.delete('/crud/delete/:id',
+    //tokenValidation.validate,
+    joiSchemaValidation.validate(crudSchemas.id, constants.requestObj.PATH_PARAMS),
     findController.delete
 );
 
-router.post('/create',
+router.post('/crud/create',
+    //tokenValidation.validate,
+    //joiSchemaValidation.validate(userSchemas.create, constants.requestObj.BODY_PARAMS),
     findController.create
 );
 
-router.put('/update/:id',
+router.put('/crud/update/:id',
+    //tokenValidation.validate,
+    joiSchemaValidation.validate(crudSchemas.id, constants.requestObj.PATH_PARAMS),
+    joiSchemaValidation.validate(crudSchemas.update, constants.requestObj.BODY_PARAMS),
     findController.update
 );
 
-/*
-router.get('/details/:id?',
-    tokenValidation.validate,
-    //joiSchemaValidation.validate(userSchemas.userIdSchema, 'path'),
-    userController.findById);
+router.get('/',
+    //tokenValidation.validate,
+    //preguntasController.getQuestion
+);
 
-router.get('/list',
-    joiSchemaValidation.validate(userSchemas.getUserListSchema, 'query'),
-    userController.findAll);
+router.get('/question',
+    //tokenValidation.validate,
+    findController.getQuestion
+);
 
-router.post('/create', 
-    joiSchemaValidation.validate(userSchemas.createUserSchema, 'body'),
-    userController.create);
+router.get('/advancedBrowse/:date/:date2',
+    //tokenValidation.validate,
+    joiSchemaValidation.validate(crudSchemas.fechas, constants.requestObj.PATH_PARAMS),
+    findController.advancedBrowse
+);
 
-router.put('/update/:id',
-    joiSchemaValidation.validate(userSchemas.userIdSchema, 'path'),
-    joiSchemaValidation.validate(userSchemas.updateUserSchema, 'body'),
-    userController.update);
 
-router.delete('/delete/:id',
-    joiSchemaValidation.validate(userSchemas.userIdSchema, 'path'),
-    userController.delete);
-*/
 module.exports = router;
