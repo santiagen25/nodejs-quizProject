@@ -1,10 +1,22 @@
+module.exports.findById = async (data) => {
+    let responseObj = { status: false };
+    try {
+        const docs = await data.model.findById(data._id, data.projection);
+        responseObj = {
+            result: docs,
+            status: true
+        };
+    } catch(error) {
+        responseObj.error = error;
+        console.log('ERROR-crudRepository-findById: ', error);
+    }
+    return responseObj;
+};
 
 module.exports.find = async (data) => {
     let responseObj = { status: false };
     try {
-        //const docs = await data.model.find(data.findQuery, data.projection).skip(data.skip).limit(data.limit);
-        const docs = await data.model.find(data.findQuery, data.projection);
-        console.log(docs);
+        const docs = await data.model.find(data.findQuery, data.projection).skip(data.skip).limit(data.limit);
         responseObj = {
             result: docs,
             status: true
@@ -65,48 +77,17 @@ module.exports.findOneAndDelete = async (data) => {
     return responseObj;
 };
 
-module.exports.findDate = async (datas) => {
+module.exports.findOne = async (data) => {
     let responseObj = { status: false };
     try {
-        //datas 0 y 1 tienen las fechas de la url, datas 2 tiene lo necesario para coger todas las datas, con js las filtro según data 0 y 1
-        /*const allDates = await datas[2].model.find(datas[2].findQuery, datas[2].projection);
-        const date1 = new Date(datas[0]);
-        const date2 = new Date(datas[1]);
-        const finalDates = [];*/
-        console.log(datas.findQuery);
-        const newDates = await datas.model.find(datas.findQuery, datas.projection);
-
-        //bien, pero mejoremoslo
-        /*for(let i = 0; i<allDates.length;i++){
-            if(new Date(allDates[i].fechaHora) > date1 && new Date(allDates[i].fechaHora) < date2){
-                finalDates.push(allDates[i]);
-            }
-        }*/
-
-
+        const docs = await data.model.findOne(data.findQuery);
         responseObj = {
-            result: newDates,
+            result: docs,
             status: true
         };
     } catch(error) {
         responseObj.error = error;
-        console.log('ERROR-crudRepository-findDate: ', error);
+        console.log('ERROR-crudRepository-findOne: ', error);
     }
     return responseObj;
 };
-
-module.exports.savePregunta = async (objToSave) => {
-    let responseObj = { status: false };
-    try {
-        const doc = await objToSave.save();
-        responseObj = {
-            result: doc,
-            status: true
-        };
-    } catch(error) {
-        responseObj.error = error;
-        console.log('ERROR-crudRepository-save: ', error);
-    }
-    return responseObj;
-};
-

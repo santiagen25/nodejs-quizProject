@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
 
 const questionSchema = mongoose.Schema({
+    id_busqueda: String,
     category: String,
     type: String,
     difficulty: String,
     question: String,
     correct_answer: String,
-    incorrect_answers: Array,
-    id_find: String
-},
-{ versionKey: false }
-);
-
+    incorrect_answers: Array
+});
 
 module.exports = mongoose.model('Question', questionSchema);
