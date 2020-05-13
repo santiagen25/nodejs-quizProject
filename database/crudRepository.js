@@ -1,22 +1,8 @@
-module.exports.findById = async (data) => {
-    let responseObj = { status: false };
-    try {
-        const docs = await data.model.findById(data._id, data.projection);
-        responseObj = {
-            result: docs,
-            status: true
-        };
-    } catch(error) {
-        responseObj.error = error;
-        console.log('ERROR-crudRepository-findById: ', error);
-    }
-    return responseObj;
-};
-
 module.exports.find = async (data) => {
     let responseObj = { status: false };
     try {
-        const docs = await data.model.find(data.findQuery, data.projection).skip(data.skip).limit(data.limit);
+        const docs = await data.model.find(data.findQuery, data.projection);
+        console.log(docs);
         responseObj = {
             result: docs,
             status: true
@@ -77,17 +63,35 @@ module.exports.findOneAndDelete = async (data) => {
     return responseObj;
 };
 
-module.exports.findOne = async (data) => {
+module.exports.findDate = async (datas) => {
     let responseObj = { status: false };
     try {
-        const docs = await data.model.findOne(data.findQuery);
+        console.log(datas.findQuery);
+        const newDates = await datas.model.find(datas.findQuery, datas.projection);
+
         responseObj = {
-            result: docs,
+            result: newDates,
             status: true
         };
     } catch(error) {
         responseObj.error = error;
-        console.log('ERROR-crudRepository-findOne: ', error);
+        console.log('ERROR-crudRepository-findDate: ', error);
     }
     return responseObj;
 };
+
+module.exports.savePregunta = async (objToSave) => {
+    let responseObj = { status: false };
+    try {
+        const doc = await objToSave.save();
+        responseObj = {
+            result: doc,
+            status: true
+        };
+    } catch(error) {
+        responseObj.error = error;
+        console.log('ERROR-crudRepository-save: ', error);
+    }
+    return responseObj;
+};
+
