@@ -7,8 +7,7 @@ const joiSchemaValidation = require('../middlewares/joiSchemaValidation');
 const constants = require('../config/constants');
 
 
-
-router.get('/listado',
+router.get('/crud/listado',
     //tokenValidation.validate,
     findController.findAll
 );
